@@ -1,56 +1,40 @@
-from pathlib import Path
+import streamlit as st
 
-SUPPORTED_EXTENSIONS = {".md", ".txt"}
+from rag.generate import answer
+from rag.ingest import build_chunks
+from rag.retriever import Retriever
 
-
-def load_documents(data_dir: str = "data") -> list[dict]:
-    """Legge tutti i file .md e .txt nella cartella data/."""
-    documents = []
-    for path in sorted(Path(data_dir).rglob("*")):
-        if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS:
-            documents.append(
-                {"source": path.name, "text": path.read_text(encoding="utf-8")}
-            )
-    return documents
+st.set_page_config(page_title="Local RAG", page_icon="📚")
+st.title("📚 Local RAG")
+st.caption("Fai domande sui tuoi documenti in data/ — tutto in locale con Ollama.")
 
 
-def chunk_text(text: str, chunk_size: int = 500, overlap: int = 100) -> list[str]:
-    """Divide il testo in blocchi senza spezzare le parole."""
-    text = " ".join(text.split())  # normalizza spazi e a capo
-    chunks = []
-    start = 0
-    while start < len(text):
-        end = min(start + chunk_size, len(text))
-        if end < len(text):
-            space = text.rfind(" ", start, end)
-            if space > start + overlap:
-                end = space
-        piece = text[start:end].strip()
-        if piece:
-            chunks.append(piece)
-        if end >= len(text):
-            break
-        start = end - overlap
-        nxt = text.find(" ", start)
-        start = nxt + 1 if nxt != -1 else len(text)
-    return chunks
+@st.cache_resource(show_spinner="Indicizzo i documenti...")
+def load_retriever(chunk_size: int, overlap: int) -> Retriever:
+    return Retriever(build_chunks(chunk_size=chunk_size, overlap=overlap))
 
 
-def build_chunks(
-    data_dir: str = "data", chunk_size: int = 500, overlap: int = 100
-) -> list[dict]:
-    """Restituisce tutti i chunk, ciascuno con la fonte di provenienza."""
-    all_chunks = []
-    for doc in load_documents(data_dir):
-        for i, piece in enumerate(chunk_text(doc["text"], chunk_size, overlap)):
-            all_chunks.append(
-                {"source": doc["source"], "chunk_id": i, "text": piece}
-            )
-    return all_chunks
+with st.sidebar:
+    st.header("Impostazioni")
+    top_k = st.slider("Chunk da recuperare (top-k)", 1, 8, 3)
+    chunk_size = st.select_slider("Dimensione chunk", [300, 500, 800, 1200], 500)
+    overlap = st.select_slider("Overlap", [50, 100, 150], 100)
+    model = st.text_input("Modello Ollama", "llama3.2")
 
+retriever = load_retriever(chunk_size, overlap)
+st.sidebar.write(f"Chunk indicizzati: {len(retriever.chunks)}")
 
-if __name__ == "__main__":
-    chunks = build_chunks()
-    print(f"{len(chunks)} chunk generati")
-    for c in chunks[:3]:
-        print(f"\n[{c['source']} #{c['chunk_id']}]\n{c['text']}")
+question = st.text_input("La tua domanda")
+
+if st.button("Chiedi") and question.strip():
+    contexts = retriever.search(question, top_k=top_k)
+    with st.spinner("Il modello sta rispondendo..."):
+        risposta = answer(question, contexts, model=model)
+
+    st.subheader("Risposta")
+    st.write(risposta)
+
+    st.subheader("Fonti")
+    for c in contexts:
+        with st.expander(f"{c['source']} #{c['chunk_id']} — score {c['score']:.2f}"):
+            st.write(c["text"])
