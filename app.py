@@ -16,8 +16,8 @@ def load_retriever(chunk_size: int, overlap: int) -> Retriever:
 
 with st.sidebar:
     st.header("Impostazioni")
-    top_k = st.slider("Chunk da recuperare (top-k)", 1, 8, 3)
-    chunk_size = st.select_slider("Dimensione chunk", [300, 500, 800, 1200], 500)
+    top_k = st.slider("Chunk da recuperare (top-k)", 1, 8, 5)
+    chunk_size = st.select_slider("Dimensione chunk", [300, 500, 800, 1200], 800)
     overlap = st.select_slider("Overlap", [50, 100, 150], 100)
     model = st.text_input("Modello Ollama", "llama3.2")
 

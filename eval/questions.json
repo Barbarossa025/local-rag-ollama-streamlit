@@ -1,0 +1,10 @@
+[
+  {"question": "Qual è il valore del composite cost-of-borrowing indicator per i prestiti alle imprese ad aprile 2026?", "keywords": ["3.62"]},
+  {"question": "A quanto è arrivato l'indicatore del costo dei nuovi prestiti alle famiglie per l'acquisto di abitazioni?", "keywords": ["3.44"]},
+  {"question": "Qual è il tasso composito sui nuovi depositi con scadenza concordata delle imprese?", "keywords": ["2.00"]},
+  {"question": "Qual è il tasso sui depositi overnight delle imprese?", "keywords": ["0.53"]},
+  {"question": "Qual è il tasso composito sui nuovi depositi con scadenza concordata delle famiglie?", "keywords": ["1.91"]},
+  {"question": "Qual è il tasso sui depositi overnight delle famiglie?", "keywords": ["0.26"]},
+  {"question": "Qual è il tasso sui nuovi prestiti oltre 1 milione di euro a tasso variabile con fissazione iniziale fino a tre mesi?", "keywords": ["3.31"]},
+  {"question": "Qual è la capitale della Francia?", "keywords": ["non ho trovato"], "expect_refusal": true}
+]

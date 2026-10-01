@@ -1,0 +1,58 @@
+{
+  "model": "llama3.2",
+  "chunk_size": 800,
+  "overlap": 100,
+  "top_k": 5,
+  "retrieval_hit": "7/7",
+  "answer_accuracy": "5/8",
+  "details": [
+    {
+      "question": "Qual è il valore del composite cost-of-borrowing indicator per i prestiti alle imprese ad aprile 2026?",
+      "retrieval_ok": true,
+      "answer_ok": true,
+      "answer": "Il valore del composite cost-of-borrowing indicator per i prestiti alle imprese ad aprile 2026 è del 3.62%."
+    },
+    {
+      "question": "A quanto è arrivato l'indicatore del costo dei nuovi prestiti alle famiglie per l'acquisto di abitazioni?",
+      "retrieval_ok": true,
+      "answer_ok": false,
+      "answer": "Secondo il contesto, l'indicatore del costo dei nuovi prestiti alle famiglie per l'acquisto di abitazioni è aumentato di 4 basis points, raggiungendo un valore di 2.00%."
+    },
+    {
+      "question": "Qual è il tasso composito sui nuovi depositi con scadenza concordata delle imprese?",
+      "retrieval_ok": true,
+      "answer_ok": false,
+      "answer": "Il tasso composito sui nuovi depositi con scadenza concordata delle imprese è del 1.98%."
+    },
+    {
+      "question": "Qual è il tasso sui depositi overnight delle imprese?",
+      "retrieval_ok": true,
+      "answer_ok": true,
+      "answer": "Secondo il contesto, il tasso sui depositi overnight delle imprese è di 0,53%."
+    },
+    {
+      "question": "Qual è il tasso composito sui nuovi depositi con scadenza concordata delle famiglie?",
+      "retrieval_ok": true,
+      "answer_ok": false,
+      "answer": "Il tasso composito sui nuovi depositi con scadenza concordata delle famiglie è di 1,87%."
+    },
+    {
+      "question": "Qual è il tasso sui depositi overnight delle famiglie?",
+      "retrieval_ok": true,
+      "answer_ok": true,
+      "answer": "Secondo il contesto, l'interesse rate sui depositi overnight delle famiglie è rimasto costante a 0,26%."
+    },
+    {
+      "question": "Qual è il tasso sui nuovi prestiti oltre 1 milione di euro a tasso variabile con fissazione iniziale fino a tre mesi?",
+      "retrieval_ok": true,
+      "answer_ok": true,
+      "answer": "Il tasso sui nuovi prestiti oltre 1 milione di euro a tasso variabile con fissazione iniziale fino a tre mesi è del 3.31%."
+    },
+    {
+      "question": "Qual è la capitale della Francia?",
+      "retrieval_ok": null,
+      "answer_ok": true,
+      "answer": "Non ho trovato l'informazione nei documenti."
+    }
+  ]
+}

@@ -3,10 +3,15 @@ import ollama
 MODEL = "llama3.2"
 
 SYSTEM_PROMPT = (
-    "Sei un assistente che risponde SOLO usando il contesto fornito. "
-    "Se il contesto non contiene la risposta, rispondi: "
+    "Sei un assistente che risponde SOLO usando il contesto fornito. Regole: "
+    "1) Cerca nel contesto la frase che riguarda esattamente la domanda "
+    "(stessa categoria: prestiti o depositi, imprese o famiglie, stessa scadenza). "
+    "2) Riporta i numeri esattamente come appaiono nel contesto, senza arrotondare "
+    "né ricalcolare. "
+    "3) Non confondere le variazioni (punti base) con i livelli (percentuali). "
+    "4) Se il contesto non contiene la risposta, rispondi solo: "
     "'Non ho trovato l'informazione nei documenti.' "
-    "Rispondi in italiano, in modo chiaro e conciso."
+    "Rispondi in italiano, in una o due frasi."
 )
 
 
@@ -21,6 +26,7 @@ def build_prompt(question: str, contexts: list[dict]) -> str:
 def answer(question: str, contexts: list[dict], model: str = MODEL) -> str:
     response = ollama.chat(
         model=model,
+        options={"temperature": 0},
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": build_prompt(question, contexts)},
