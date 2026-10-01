@@ -2,3 +2,5 @@ streamlit
 ollama
 numpy
 sentence-transformers
+pandas
+pyarrow
